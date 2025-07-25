@@ -16,6 +16,11 @@ app.use(session({
   cookie: { secure: false, maxAge: 3600000 } // 1 hour
 }));
 
+// Health check endpoint for Docker
+app.get('/health', (req, res) => {
+  res.status(200).send('healthy');
+});
+
 // Routes
 app.get('/', (req, res) => {
   res.send(`
