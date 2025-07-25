@@ -64,7 +64,7 @@ jobs:
 
       - name: Download password list
         run: |
-          curl -o ./xato-net-10-million-passwords-1000.txt https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/Common-Credentials/xato-net-10-million-passwords-1000.txt
+          curl -o ./xato-net-10-million-passwords-1000.txt https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/xato-net-10-million-passwords-1000.txt
 
       - name: Extract artifacts
         run: |
@@ -88,6 +88,9 @@ jobs:
           echo "Files in the tests directory:"
           ls -ltra tests/
 
+      - name: Run unit tests
+        run: npm test
+
       - name: Start Node.js server
         run: |
           nohup node src/server.js &  # Start the server in the background
@@ -95,7 +98,7 @@ jobs:
 
       - name: Verify server is running
         run: |
-          curl -f http://localhost:3000 || { echo "Server failed to start"; exit 1; }
+          curl -f http://localhost:80 || { echo "Server failed to start"; exit 1; }
 
       - name: Wait for Selenium server to be up
         run: |
@@ -104,4 +107,4 @@ jobs:
           done
 
       - name: Run Selenium tests
-        run: npm test
+        run: node tests/SeleniumTest.mjs github

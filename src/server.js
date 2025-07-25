@@ -6,7 +6,7 @@ const app = express();
 // ✅ Disable Express version disclosure
 app.disable('x-powered-by');
 
-const PORT = process.env.PORT || 3000;
+const PORT = 80;
 
 // Load common passwords
 const commonPasswords = new Set(
