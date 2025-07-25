@@ -1,8 +1,22 @@
-const commonPasswords = require('./commonPasswords');
+const fs = require('fs');
+const path = require('path');
+
+// Load common passwords from the 10-million-password-list-top-1000.txt file
+let commonPasswords = [];
+try {
+  const passwordFile = path.join(__dirname, '..', 'xato-net-10-million-passwords-1000.txt');
+  const fileContent = fs.readFileSync(passwordFile, 'utf8');
+  commonPasswords = fileContent.split('\n')
+    .map(password => password.trim().toLowerCase())
+    .filter(password => password.length > 0);
+} catch (error) {
+  console.warn('Warning: Could not load common passwords file:', error.message);
+}
 
 /**
  * Validates password based on OWASP Top 10 Proactive Controls C6
  * Level 1: Password Requirements
+ * Blocks common passwords from 10-million-password-list-top-1000.txt
  */
 function validatePassword(password) {
   const errors = [];
